@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Debatten-Trainer</title>
+    <title>Debatten-Duell</title>
     <link href="https://googleapis.com" rel="stylesheet">
     <style>
         :root {
@@ -14,8 +14,11 @@
             --brand: #4f46e5;
             --brand-light: #eeebff;
             --emerald: #10b981;
+            --emerald-bg: #ecfdf5;
             --rose: #f43f5e;
+            --rose-bg: #fff1f2;
             --amber: #f59e0b;
+            --amber-bg: #fffbeb;
             --border: #e6ebf1;
             --shadow: 0 10px 40px rgba(0, 0, 0, 0.02);
             --radius-lg: 24px;
@@ -42,8 +45,8 @@
             align-items: center;
         }
 
-        .logo { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
-        .logo-dot { width: 10px; height: 10px; background: var(--brand); border-radius: 50%; }
+        .logo { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .logo-dot { width: 10px; height: 10px; background: var(--brand); border-radius: 50%; box-shadow: 0 0 0 4px var(--brand-light); }
 
         .session-badge {
             font-size: 12px;
@@ -52,6 +55,9 @@
             background: #f1f5f9;
             padding: 8px 18px;
             border-radius: var(--radius-pill);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .main-wrapper {
@@ -63,7 +69,7 @@
         .two-blocks-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 28px;
+            gap: 32px;
             align-items: stretch;
         }
 
@@ -84,11 +90,32 @@
 
         .hidden { display: none !important; }
 
-        h2 { font-size: 22px; font-weight: 700; margin: 0 0 8px 0; }
-        .desc { color: var(--text-sub); font-size: 14px; margin-bottom: 24px; }
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .icon-box {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: var(--brand-light);
+            color: var(--brand);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        h2 { font-size: 22px; font-weight: 700; margin: 0; letter-spacing: -0.3px; }
+        .desc { color: var(--text-sub); font-size: 14px; margin-bottom: 28px; line-height: 1.5; }
 
         label {
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 6px;
             font-size: 13px;
             font-weight: 600;
             color: var(--text-main);
@@ -97,13 +124,13 @@
 
         input[type="text"], input[type="number"] {
             width: 100%;
-            padding: 14px 18px;
+            padding: 15px 18px;
             border: 1px solid var(--border);
             border-radius: var(--radius-md);
             font-size: 14px;
             color: var(--text-main);
             background: #fdfefe;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
             transition: all 0.2s ease;
         }
 
@@ -127,71 +154,107 @@
             gap: 8px;
         }
 
+        .btn svg, label svg, .session-badge svg, .market-status-bar svg {
+            width: 16px;
+            height: 16px;
+            stroke-width: 2.2;
+        }
+
         .btn-primary { background: var(--brand); color: white; width: 100%; }
         .btn-primary:hover { background: #4338ca; transform: translateY(-1px); }
         .btn-secondary { background: transparent; border-color: var(--border); color: var(--text-main); }
         .btn-secondary:hover { background: #f8fafc; border-color: var(--text-sub); }
-        .btn-warning { background: #fffbeb; color: var(--amber); border-color: #fef3c7; }
+        .btn-warning { background: var(--amber-bg); color: var(--amber); border-color: #fef3c7; }
         .btn-warning:hover { background: var(--amber); color: white; }
+        .btn-danger { background: var(--rose-bg); color: var(--rose); border-color: #ffe4e6; }
+        .btn-danger:hover { background: var(--rose); color: white; }
 
         .preset-pills {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
         .preset-pill {
             font-size: 12px;
-            padding: 6px 14px;
-            background: #f1f5f9;
+            padding: 7px 14px;
+            background: #f8fafc;
             border-radius: var(--radius-pill);
             cursor: pointer;
             color: var(--text-sub);
-            font-weight: 500;
-            border: 1px solid transparent;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            transition: all 0.15s ease;
         }
         .preset-pill:hover {
             border-color: var(--brand);
             color: var(--brand);
+            background: var(--brand-light);
         }
 
         .sub-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 14px;
         }
 
-        .topic-box {
-            background: var(--brand-light);
-            color: var(--brand);
-            padding: 14px 18px;
+        .team-card {
+            background: #f8fafc;
+            border: 1px solid var(--border);
             border-radius: var(--radius-md);
-            font-size: 14px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+
+        .team-card input {
+            background: #ffffff;
+            margin-bottom: 10px;
+        }
+        .team-card input:last-child { margin-bottom: 0; }
+
+        .market-status-bar {
+            background: #eff6ff;
+            color: var(--brand);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            font-size: 13px;
             font-weight: 600;
-            margin-bottom: 24px;
-            line-height: 1.4;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            line-height: 1.45;
         }
 
         .huge-timer {
             font-size: 64px;
             font-weight: 700;
             letter-spacing: -2px;
-            margin: 12px 0;
+            margin: 8px 0 4px 0;
             font-variant-numeric: tabular-nums;
         }
 
         .timer-warning { color: var(--amber); }
         .timer-over { color: var(--rose); }
 
+        .flow-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--emerald);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         .phase-badge {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             padding: 6px 14px;
             border-radius: var(--radius-pill);
             font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-weight: 600;
             background: #f1f5f9;
             color: var(--text-sub);
         }
@@ -201,7 +264,7 @@
             border-radius: var(--radius-md);
             background: #fbfcfd;
             padding: 8px;
-            max-height: 410px;
+            max-height: 430px;
             overflow-y: auto;
         }
 
@@ -212,9 +275,9 @@
             justify-content: space-between;
             align-items: center;
             font-size: 13px;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: background 0.15s;
+            transition: all 0.15s ease;
         }
         .phase-row:last-child { border-bottom: none; }
         .phase-row:hover { background: #f1f5f9; }
@@ -227,143 +290,45 @@
 
         .phase-row.done {
             color: var(--text-sub);
-            text-decoration: line-through;
             opacity: 0.65;
+        }
+
+        .phase-row-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .controls-row {
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 24px;
+            gap: 12px;
+            margin-top: 28px;
         }
     </style>
 </head>
-<body>
+Einstellungen
 
-    <div class="app-header">
-        <div class="logo"><div class="logo-dot"></div> Debatten-Trainer</div>
-        <div id="header-status" class="session-badge">Einstellungen</div>
-    </div>
 
-    <div class="main-wrapper">
-
-        <div id="setup-screen" class="two-blocks-grid">
-            
-            <div class="glass-panel">
-                <div>
-                    <h2>1. Thema & Zeiten</h2>
-                    <div class="desc">Lege die Streitfrage und die Dauer der Runden fest.</div>
-
-                    <label for="debate-question">Streitfrage</label>
-                    <input type="text" id="debate-question" placeholder="z. B. Soll ein soziales Pflichtjahr eingeführt werden?">
-
-                    <div class="preset-pills">
-                        <span class="preset-pill" onclick="setTopic('Soll ein verpflichtendes soziales Jahr eingeführt werden?')">Soziales Pflichtjahr</span>
-                        <span class="preset-pill" onclick="setTopic('Soll das Wahlalter auf 16 Jahre gesenkt werden?')">Wahlalter ab 16</span>
-                        <span class="preset-pill" onclick="setTopic('Sollen Hausaufgaben abgeschafft werden?')">Keine Hausaufgaben</span>
-                    </div>
-
-                    <label for="time-opening">Eröffnungsrunde (Sekunden pro Person)</label>
-                    <input type="number" id="time-opening" value="120" min="15" max="600">
-
-                    <div class="sub-grid">
-                        <div>
-                            <label for="time-free">Freie Aussprache (Min.)</label>
-                            <input type="number" id="time-free" value="12" min="1" max="60">
-                        </div>
-                        <div>
-                            <label for="time-closing">Schlussrunde (Sek.)</label>
-                            <input type="number" id="time-closing" value="60" min="15" max="300">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="glass-panel">
-                <div>
-                    <h2>2. Redner & Start</h2>
-                    <div class="desc">Trage optional die Namen der Teilnehmenden ein.</div>
-
-                    <div class="sub-grid">
-                        <div>
-                            <label>Pro 1 (Eröffnung & Schluss)</label>
-                            <input type="text" id="name-pro1" placeholder="Pro 1">
-                        </div>
-                        <div>
-                            <label>Pro 2 (Ergänzung & Schluss)</label>
-                            <input type="text" id="name-pro2" placeholder="Pro 2">
-                        </div>
-                    </div>
-
-                    <div class="sub-grid">
-                        <div>
-                            <label>Contra 1 (Eröffnung & Schluss)</label>
-                            <input type="text" id="name-contra1" placeholder="Contra 1">
-                        </div>
-                        <div>
-                            <label>Contra 2 (Ergänzung & Schluss)</label>
-                            <input type="text" id="name-contra2" placeholder="Contra 2">
-                        </div>
-                    </div>
-                </div>
-
-                <div style="margin-top: 24px;">
-                    <button class="btn btn-primary" onclick="startDebate()">Debatte jetzt starten →</button>
-                </div>
-            </div>
-
-        </div>
-
-        <div id="debate-screen" class="two-blocks-grid hidden">
-            
-            <div class="glass-panel">
-                <div>
-                    <div class="topic-box">
-                        <div style="font-size: 11px; text-transform: uppercase; opacity: 0.75; margin-bottom: 4px;">Streitfrage</div>
-                        <span id="display-question">Soll ein verpflichtendes soziales Jahr eingeführt werden?</span>
-                    </div>
-
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span id="current-round-badge" class="phase-badge">1. Eröffnungsrunde</span>
-                        <span id="phase-counter" style="font-size: 13px; color: var(--text-sub); font-weight: 600;">Schritt 1 / 9</span>
-                    </div>
-
-                    <h2 id="current-speaker-title" style="font-size: 26px; margin-top: 16px;">Eröffnungsrede: Pro 1</h2>
-                    <div id="current-phase-hint" class="desc" style="margin-bottom: 16px;">Position klarmachen und erstes Hauptargument vorstellen.</div>
-
-                    <div id="timer-display" class="huge-timer">02:00</div>
-                    <div id="timer-status-text" style="font-size: 13px; font-weight: 600; color: var(--emerald);">Bereit zum Starten</div>
-                </div>
-
-                <div class="controls-row">
-                    <button id="btn-toggle-timer" class="btn btn-primary" style="width: auto; flex: 1;" onclick="toggleTimer()">▶ Start</button>
-                    <button class="btn btn-secondary" onclick="resetCurrentTimer()">↺</button>
-                    <button class="btn btn-warning" onclick="nextPhase()">Weiter ⏭</button>
-                </div>
-            </div>
-
-            <div class="glass-panel">
-                <div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                        <h2 style="margin: 0;">Ablaufplan</h2>
-                        <button class="btn btn-secondary" style="padding: 8px 14px; font-size: 12px;" onclick="backToSettings()">⚙ Einstellungen</button>
-                    </div>
-                    <div class="desc" style="margin-bottom: 16px;">Klicke auf eine Phase, um direkt dorthin zu wechseln.</div>
-                    
-                    <div class="phase-list" id="phase-list-container"></div>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
+Klicke auf einen Abschnitt, um direkt dorthin zu springen.
+    
+### Teil 3: JavaScript-Logik & Abschluss
+```html
     <script>
         let phases = [];
         let currentPhaseIndex = 0;
         let timeLeft = 0;
         let timerInterval = null;
         let isRunning = false;
+
+        const icons = {
+            play: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"/></svg>`,
+            pause: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`,
+            check: `<svg style="width:15px;height:15px;color:var(--emerald);flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`,
+            mic: `<svg style="width:15px;height:15px;color:var(--brand);flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>`,
+            circle: `<svg style="width:15px;height:15px;color:var(--text-sub);opacity:0.5;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>`,
+            clock: `<svg style="width:15px;height:15px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+            alert: `<svg style="width:15px;height:15px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`
+        };
 
         function setTopic(text) {
             document.getElementById('debate-question').value = text;
@@ -406,7 +371,7 @@
             document.getElementById('display-question').textContent = question;
             document.getElementById('setup-screen').classList.add('hidden');
             document.getElementById('debate-screen').classList.remove('hidden');
-            document.getElementById('header-status').textContent = "Debatte läuft";
+            document.getElementById('header-status').innerHTML = `${icons.mic} Debatte läuft`;
 
             loadPhase(0);
         }
@@ -415,7 +380,7 @@
             stopTimer();
             document.getElementById('debate-screen').classList.add('hidden');
             document.getElementById('setup-screen').classList.remove('hidden');
-            document.getElementById('header-status').textContent = "Einstellungen";
+            document.getElementById('header-status').innerHTML = `${icons.clock} Vorbereitung`;
         }
 
         function loadPhase(index) {
@@ -442,14 +407,14 @@
 
             if (timeLeft <= 0) {
                 display.classList.add('timer-over');
-                statusText.textContent = "Zeit abgelaufen! (Bitte zum Ende kommen)";
+                statusText.innerHTML = `${icons.alert} <span>Zeit abgelaufen! Bitte zum Ende kommen.</span>`;
                 statusText.style.color = "var(--rose)";
             } else if (timeLeft <= 15) {
                 display.classList.add('timer-warning');
-                statusText.textContent = "Letzte 15 Sekunden!";
+                statusText.innerHTML = `${icons.alert} <span>Letzte 15 Sekunden!</span>`;
                 statusText.style.color = "var(--amber)";
             } else {
-                statusText.textContent = isRunning ? "Redezeit läuft..." : "Pausiert / Bereit";
+                statusText.innerHTML = `${icons.clock} <span>${isRunning ? "Redezeit läuft..." : "Pausiert / Bereit"}</span>`;
                 statusText.style.color = "var(--emerald)";
             }
         }
@@ -465,7 +430,7 @@
         function startTimer() {
             if (isRunning) return;
             isRunning = true;
-            document.getElementById('btn-toggle-timer').textContent = "⏸ Pause";
+            document.getElementById('btn-toggle-timer').innerHTML = `${icons.pause} Pause`;
             updateTimerDisplay();
 
             timerInterval = setInterval(() => {
@@ -477,7 +442,7 @@
         function stopTimer() {
             isRunning = false;
             clearInterval(timerInterval);
-            document.getElementById('btn-toggle-timer').textContent = "▶ Start";
+            document.getElementById('btn-toggle-timer').innerHTML = `${icons.play} Start`;
             updateTimerDisplay();
         }
 
@@ -503,13 +468,23 @@
             phases.forEach((p, idx) => {
                 const row = document.createElement('div');
                 row.className = 'phase-row';
-                if (idx === currentPhaseIndex) row.classList.add('active');
-                if (idx < currentPhaseIndex) row.classList.add('done');
+                
+                let statusIcon = icons.circle;
+                if (idx === currentPhaseIndex) {
+                    row.classList.add('active');
+                    statusIcon = icons.mic;
+                } else if (idx < currentPhaseIndex) {
+                    row.classList.add('done');
+                    statusIcon = icons.check;
+                }
 
                 row.onclick = () => loadPhase(idx);
 
                 row.innerHTML = `
-                    <span>${idx + 1}. ${p.title}</span>
+                    <div class="phase-row-left">
+                        ${statusIcon}
+                        <span>${idx + 1}. ${p.title}</span>
+                    </div>
                     <span style="font-variant-numeric: tabular-nums; font-weight: 600;">${formatTime(p.duration)}</span>
                 `;
                 container.appendChild(row);
