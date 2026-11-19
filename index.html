@@ -12,6 +12,7 @@
             --text-main: #0f172a;
             --text-sub: #64748b;
             --brand: #4f46e5;
+            --brand-hover: #4338ca;
             --brand-light: #eeebff;
             --emerald: #10b981;
             --emerald-bg: #ecfdf5;
@@ -20,421 +21,652 @@
             --amber: #f59e0b;
             --amber-bg: #fffbeb;
             --border: #e6ebf1;
-            --shadow: 0 10px 40px rgba(0, 0, 0, 0.02);
+            --shadow: 0 12px 36px rgba(15, 23, 42, 0.03);
             --radius-lg: 24px;
             --radius-md: 16px;
             --radius-pill: 99px;
         }
-
         * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-
-        body {
-            background-color: var(--bg-app);
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
-        }
-
+        body { background-color: var(--bg-app); color: var(--text-main); margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
         .app-header {
-            background: var(--bg-surface);
+            background: rgba(255, 255, 255, 0.95);
             border-bottom: 1px solid var(--border);
-            padding: 20px 40px;
+            padding: 18px 36px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 20;
         }
-
         .logo { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
         .logo-dot { width: 10px; height: 10px; background: var(--brand); border-radius: 50%; box-shadow: 0 0 0 4px var(--brand-light); }
-
+        .header-actions { display: flex; align-items: center; gap: 10px; }
         .session-badge {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-sub);
-            background: #f1f5f9;
-            padding: 8px 18px;
-            border-radius: var(--radius-pill);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            font-size: 12px; font-weight: 600; color: var(--text-sub); background: #f1f5f9;
+            padding: 8px 16px; border-radius: var(--radius-pill); display: inline-flex; align-items: center; gap: 6px;
         }
-
-        .main-wrapper {
-            max-width: 1140px;
-            margin: 40px auto;
-            padding: 0 24px;
-        }
-
-        .two-blocks-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 32px;
-            align-items: stretch;
-        }
-
+        .sound-toggle { cursor: pointer; border: 1px solid var(--border); background: var(--bg-surface); color: var(--text-main); }
+        .sound-toggle:hover { border-color: var(--brand); color: var(--brand); }
+        .sound-toggle.muted { color: var(--text-sub); opacity: 0.6; }
+        .main-wrapper { max-width: 1180px; margin: 32px auto; padding: 0 24px; }
+        .four-blocks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; align-items: stretch; }
         @media (max-width: 850px) {
-            .two-blocks-grid { grid-template-columns: 1fr; }
+            .four-blocks-grid { grid-template-columns: 1fr; }
+            .app-header { padding: 16px 20px; }
         }
-
         .glass-panel {
-            background: var(--bg-surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 36px;
-            box-shadow: var(--shadow);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+            padding: 30px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between;
         }
-
         .hidden { display: none !important; }
-
-        .panel-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 8px;
-        }
-
+        .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+        .panel-title-group { display: flex; align-items: center; gap: 12px; }
         .icon-box {
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
-            background: var(--brand-light);
-            color: var(--brand);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
+            width: 38px; height: 38px; border-radius: 12px; background: var(--brand-light); color: var(--brand);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
-
-        h2 { font-size: 22px; font-weight: 700; margin: 0; letter-spacing: -0.3px; }
-        .desc { color: var(--text-sub); font-size: 14px; margin-bottom: 28px; line-height: 1.5; }
-
-        label {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 8px;
-        }
-
+        h2 { font-size: 20px; font-weight: 700; margin: 0; letter-spacing: -0.3px; }
+        .desc { color: var(--text-sub); font-size: 13px; margin-bottom: 18px; line-height: 1.5; }
+        label { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--text-main); margin-bottom: 8px; }
         input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 15px 18px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            font-size: 14px;
-            color: var(--text-main);
-            background: #fdfefe;
-            margin-bottom: 18px;
-            transition: all 0.2s ease;
+            width: 100%; padding: 13px 16px; border: 1px solid var(--border); border-radius: var(--radius-md);
+            font-size: 14px; color: var(--text-main); background: #fdfefe; margin-bottom: 14px; transition: all 0.2s ease;
         }
-
-        input:focus {
-            border-color: var(--brand);
-            box-shadow: 0 0 0 4px var(--brand-light);
-            outline: none;
-        }
-
+        input:focus { border-color: var(--brand); box-shadow: 0 0 0 4px var(--brand-light); outline: none; background: #ffffff; }
         .btn {
-            padding: 14px 24px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: var(--radius-pill);
-            border: 1px solid transparent;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            padding: 13px 20px; font-size: 14px; font-weight: 600; border-radius: var(--radius-pill);
+            border: 1px solid transparent; cursor: pointer; transition: all 0.2s ease;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px; user-select: none;
         }
-
-        .btn svg, label svg, .session-badge svg, .market-status-bar svg {
-            width: 16px;
-            height: 16px;
-            stroke-width: 2.2;
-        }
-
-        .btn-primary { background: var(--brand); color: white; width: 100%; }
-        .btn-primary:hover { background: #4338ca; transform: translateY(-1px); }
+        .btn svg, label svg, .session-badge svg, .market-status-bar svg { width: 16px; height: 16px; stroke-width: 2.2; }
+        .btn-primary { background: var(--brand); color: white; width: 100%; box-shadow: 0 4px 14px rgba(79, 70, 229, 0.22); }
+        .btn-primary:hover { background: var(--brand-hover); transform: translateY(-1px); }
         .btn-secondary { background: transparent; border-color: var(--border); color: var(--text-main); }
-        .btn-secondary:hover { background: #f8fafc; border-color: var(--text-sub); }
+        .btn-secondary:hover { background: #f8fafc; border-color: #cbd5e1; }
         .btn-warning { background: var(--amber-bg); color: var(--amber); border-color: #fef3c7; }
         .btn-warning:hover { background: var(--amber); color: white; }
-        .btn-danger { background: var(--rose-bg); color: var(--rose); border-color: #ffe4e6; }
-        .btn-danger:hover { background: var(--rose); color: white; }
-
-        .preset-pills {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 22px;
-        }
-
+        .preset-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
         .preset-pill {
-            font-size: 12px;
-            padding: 7px 14px;
-            background: #f8fafc;
-            border-radius: var(--radius-pill);
-            cursor: pointer;
-            color: var(--text-sub);
-            font-weight: 600;
-            border: 1px solid var(--border);
-            transition: all 0.15s ease;
+            font-size: 12px; padding: 7px 13px; background: #f8fafc; border-radius: var(--radius-pill);
+            cursor: pointer; color: var(--text-sub); font-weight: 600; border: 1px solid var(--border);
+            display: inline-flex; align-items: center; gap: 5px;
         }
-        .preset-pill:hover {
-            border-color: var(--brand);
-            color: var(--brand);
-            background: var(--brand-light);
-        }
-
-        .sub-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-
-        .team-card {
-            background: #f8fafc;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 18px;
-            margin-bottom: 16px;
-        }
-
-        .team-card input {
-            background: #ffffff;
-            margin-bottom: 10px;
-        }
-        .team-card input:last-child { margin-bottom: 0; }
-
+        .preset-pill:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-light); }
+        .sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .market-status-bar {
-            background: #eff6ff;
-            color: var(--brand);
-            padding: 14px 20px;
-            border-radius: var(--radius-md);
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 28px;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            line-height: 1.45;
+            background: #eff6ff; color: var(--brand); padding: 14px 20px; border-radius: var(--radius-pill);
+            font-size: 13px; font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
         }
-
-        .huge-timer {
-            font-size: 64px;
-            font-weight: 700;
-            letter-spacing: -2px;
-            margin: 8px 0 4px 0;
-            font-variant-numeric: tabular-nums;
-        }
-
+        .side-pill { padding: 4px 12px; border-radius: var(--radius-pill); font-size: 11px; font-weight: 700; text-transform: uppercase; }
+        .side-pro { background: var(--emerald-bg); color: var(--emerald); }
+        .side-contra { background: var(--rose-bg); color: var(--rose); }
+        .side-all { background: var(--brand-light); color: var(--brand); }
+        .huge-timer { font-size: 58px; font-weight: 800; letter-spacing: -2px; margin: 6px 0; font-variant-numeric: tabular-nums; line-height: 1; }
         .timer-warning { color: var(--amber); }
         .timer-over { color: var(--rose); }
-
-        .flow-text {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--emerald);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .phase-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            border-radius: var(--radius-pill);
-            font-size: 12px;
-            font-weight: 600;
-            background: #f1f5f9;
-            color: var(--text-sub);
-        }
-
-        .phase-list {
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            background: #fbfcfd;
-            padding: 8px;
-            max-height: 430px;
-            overflow-y: auto;
-        }
-
+        .progress-track { width: 100%; height: 7px; background: #f1f5f9; border-radius: var(--radius-pill); overflow: hidden; margin: 14px 0 12px 0; }
+        .progress-fill { height: 100%; width: 100%; background: var(--brand); border-radius: var(--radius-pill); transition: width 0.35s linear; }
+        .flow-text { font-size: 13px; font-weight: 600; color: var(--emerald); display: flex; align-items: center; gap: 6px; }
+        .phase-badge { display: inline-flex; align-items: center; padding: 6px 14px; border-radius: var(--radius-pill); font-size: 12px; font-weight: 700; background: #f1f5f9; color: var(--text-sub); }
+        .phase-list { border: 1px solid var(--border); border-radius: var(--radius-md); background: #fbfcfd; padding: 8px; max-height: 230px; overflow-y: auto; }
         .phase-row {
-            padding: 13px 16px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.15s ease;
+            padding: 11px 14px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;
+            align-items: center; font-size: 13px; border-radius: 10px; cursor: pointer;
         }
         .phase-row:last-child { border-bottom: none; }
         .phase-row:hover { background: #f1f5f9; }
-
-        .phase-row.active {
-            background: var(--brand-light);
-            color: var(--brand);
-            font-weight: 700;
+        .phase-row.active { background: var(--brand-light); color: var(--brand); font-weight: 700; }
+        .phase-row.done { color: var(--text-sub); opacity: 0.6; }
+        .phase-row-left { display: flex; align-items: center; gap: 10px; }
+        .controls-row { display: flex; gap: 10px; margin-top: 20px; }
+        .score-row {
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            padding: 9px 14px; background: #f8fafc; border-radius: 12px; margin-bottom: 8px; font-size: 13px; font-weight: 600;
         }
-
-        .phase-row.done {
-            color: var(--text-sub);
-            opacity: 0.65;
+        .score-row:last-child { margin-bottom: 0; }
+        .score-row input[type="range"] { width: 110px; accent-color: var(--brand); cursor: pointer; }
+        .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45);
+            display: flex; align-items: center; justify-content: center; padding: 24px; z-index: 50;
         }
-
-        .phase-row-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .controls-row {
-            display: flex;
-            gap: 12px;
-            margin-top: 28px;
-        }
+        .modal-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; max-width: 520px; width: 100%; }
+        .rank-row { display: flex; align-items: center; justify-content: space-between; padding: 13px 16px; background: #f8fafc; border-radius: var(--radius-md); margin-bottom: 10px; font-size: 14px; font-weight: 600; }
+        .rank-row.winner { background: var(--brand-light); color: var(--brand); border: 1px solid #c7d2fe; }
     </style>
 </head>
-Einstellungen
+<body>
 
+    <div class="app-header">
+        <div class="logo">
+            <div class="logo-dot"></div>
+            Debatten-Duell
+        </div>
+        <div class="header-actions">
+            <button id="btn-sound" class="session-badge sound-toggle" onclick="toggleSound()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <span id="sound-label">Gong an</span>
+            </button>
+            <div id="header-status" class="session-badge">Vorbereitung</div>
+        </div>
+    </div>
 
-Klicke auf einen Abschnitt, um direkt dorthin zu springen.
-    
-### Teil 3: JavaScript-Logik & Abschluss
-```html
+    <div class="main-wrapper">
+
+        <div id="setup-screen" class="four-blocks-grid">
+            
+            <div class="glass-panel">
+                <div>
+                    <div class="panel-header">
+                        <div class="panel-title-group">
+                            <div class="icon-box">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            </div>
+                            <h2>1. Streitfrage</h2>
+                        </div>
+                    </div>
+                    <div class="desc">Wähle ein Thema aus oder formuliere eine eigene Frage.</div>
+                    <input type="text" id="debate-question" placeholder="z. B. Soll ein verpflichtendes soziales Jahr eingeführt werden?">
+                    <div class="preset-pills">
+                        <span class="preset-pill" onclick="randomTopic()">Zufallsfrage</span>
+                        <span class="preset-pill" onclick="setTopic('Soll ein verpflichtendes soziales Jahr eingeführt werden?')">Soziales Pflichtjahr</span>
+                        <span class="preset-pill" onclick="setTopic('Soll das Wahlalter auf 16 Jahre gesenkt werden?')">Wahlalter ab 16</span>
+                        <span class="preset-pill" onclick="setTopic('Sollen Hausaufgaben abgeschafft werden?')">Keine Hausaufgaben</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel">
+                <div>
+                    <div class="panel-header">
+                        <div class="panel-title-group">
+                            <div class="icon-box">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            </div>
+                            <h2>2. Redezeiten</h2>
+                        </div>
+                    </div>
+                    <div class="desc">Passe die Zeitvorgaben für die drei Runden an.</div>
+                    <div class="sub-grid">
+                        <div>
+                            <label for="time-opening">Eröffnung (Sek.)</label>
+                            <input type="number" id="time-opening" value="120" min="15" max="600">
+                        </div>
+                        <div>
+                            <label for="time-free">Aussprache (Min.)</label>
+                            <input type="number" id="time-free" value="12" min="1" max="60">
+                        </div>
+                    </div>
+                    <label for="time-closing">Schlussrunde (Sekunden pro Person)</label>
+                    <input type="number" id="time-closing" value="60" min="15" max="300" style="margin-bottom: 0;">
+                </div>
+            </div>
+
+            <div class="glass-panel">
+                <div>
+                    <div class="panel-header">
+                        <div class="panel-title-group">
+                            <div class="icon-box" style="background: var(--emerald-bg); color: var(--emerald);">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+                            </div>
+                            <h2>3. Team Pro</h2>
+                        </div>
+                    </div>
+                    <div class="desc">Befürworter der Streitfrage (optional Namen eintragen).</div>
+                    <div class="sub-grid">
+                        <div>
+                            <label>Pro 1 (Eröffnung)</label>
+                            <input type="text" id="name-pro1" placeholder="Pro 1" style="margin-bottom: 0;">
+                        </div>
+                        <div>
+                            <label>Pro 2 (Ergänzung)</label>
+                            <input type="text" id="name-pro2" placeholder="Pro 2" style="margin-bottom: 0;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel">
+                <div>
+                    <div class="panel-header">
+                        <div class="panel-title-group">
+                            <div class="icon-box" style="background: var(--rose-bg); color: var(--rose);">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            </div>
+                            <h2>4. Team Contra</h2>
+                        </div>
+                    </div>
+                    <div class="desc">Gegner der Streitfrage – danach direkt starten.</div>
+                    <div class="sub-grid" style="margin-bottom: 18px;">
+                        <div>
+                            <label>Contra 1 (Eröffnung)</label>
+                            <input type="text" id="name-contra1" placeholder="Contra 1" style="margin-bottom: 0;">
+                        </div>
+                        <div>
+                            <label>Contra 2 (Ergänzung)</label>
+                            <input type="text" id="name-contra2" placeholder="Contra 2" style="margin-bottom: 0;">
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="startDebate()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Debatte starten
+                </button>
+            </div>
+
+        </div>
+        <div id="debate-screen" class="hidden">
+            
+            <div class="market-status-bar">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <svg style="flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    <span id="display-question">Soll ein verpflichtendes soziales Jahr eingeführt werden?</span>
+                </div>
+                <div style="display: flex; gap: 8px; flex-shrink: 0;">
+                    <button class="btn btn-secondary" style="background: white; padding: 6px 14px; font-size: 12px;" onclick="showSummaryModal()">Auswertung</button>
+                    <button class="btn btn-secondary" style="background: white; padding: 6px 14px; font-size: 12px;" onclick="backToSettings()">Einstellungen</button>
+                </div>
+            </div>
+
+            <div class="four-blocks-grid">
+                
+                <div class="glass-panel">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <span id="current-round-badge" class="phase-badge">1. Eröffnungsrunde</span>
+                            <span id="current-side-pill" class="side-pill side-pro">Pro-Seite</span>
+                        </div>
+                        <h2 id="current-speaker-title" style="font-size: 24px; margin-bottom: 6px;">Eröffnungsrede: Pro 1</h2>
+                        <div id="current-phase-hint" class="desc" style="margin-bottom: 12px;">Position klarmachen und erstes Hauptargument vorstellen.</div>
+                        <div id="timer-display" class="huge-timer">02:00</div>
+                        <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+                        <div id="timer-status-text" class="flow-text">Bereit zum Starten</div>
+                    </div>
+                    <div class="controls-row">
+                        <button id="btn-toggle-timer" class="btn btn-primary" style="width: auto; flex: 1;" onclick="toggleTimer()">Start</button>
+                        <button class="btn btn-secondary" onclick="resetCurrentTimer()">Reset</button>
+                        <button class="btn btn-warning" onclick="nextPhase()">Weiter</button>
+                    </div>
+                </div>
+
+                <div class="glass-panel">
+                    <div>
+                        <div class="panel-header">
+                            <div class="panel-title-group">
+                                <div class="icon-box">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                                </div>
+                                <h2>Ablaufplan</h2>
+                            </div>
+                        </div>
+                        <div class="desc" style="margin-bottom: 14px;">Klicke auf einen Abschnitt, um direkt dorthin zu springen.</div>
+                        <div class="phase-list" id="phase-list-container"></div>
+                    </div>
+                </div>
+
+                <div class="glass-panel">
+                    <div>
+                        <div class="panel-header">
+                            <div class="panel-title-group">
+                                <div class="icon-box">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                                </div>
+                                <h2>Argument-Tracker</h2>
+                            </div>
+                            <span id="arg-counter" class="phase-badge">0 Punkte</span>
+                        </div>
+                        <div class="desc" style="margin-bottom: 12px;">Notiere Argumente und hake sie nach dem Kontern ab.</div>
+                        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                            <input type="text" id="new-arg-input" placeholder="Argument eintippen..." style="margin-bottom: 0; padding: 11px 14px;" onkeydown="if(event.key==='Enter') addArgument('pro')">
+                            <button class="btn" style="background: var(--emerald-bg); color: var(--emerald); padding: 10px 14px; font-size: 12px;" onclick="addArgument('pro')">+ Pro</button>
+                            <button class="btn" style="background: var(--rose-bg); color: var(--rose); padding: 10px 14px; font-size: 12px;" onclick="addArgument('contra')">+ Contra</button>
+                        </div>
+                        <div id="arg-list-container" class="phase-list" style="max-height: 165px; min-height: 120px;">
+                            <div style="padding: 28px 12px; text-align: center; color: var(--text-sub); font-size: 12px;">Noch keine Stichpunkte notiert.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel">
+                    <div>
+                        <div class="panel-header">
+                            <div class="panel-title-group">
+                                <div class="icon-box">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                </div>
+                                <h2>Jury-Check</h2>
+                            </div>
+                            <span id="total-score-badge" class="phase-badge" style="background:var(--brand-light);color:var(--brand);">12 / 20 Pkt.</span>
+                        </div>
+                        <div id="jury-tabs" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 12px 0 14px 0;">
+                            <button class="preset-pill" style="justify-content:center; background:var(--brand); color:white; border-color:var(--brand);" onclick="selectJurySpeaker(0)" id="jtab-0">Pro 1</button>
+                            <button class="preset-pill" style="justify-content:center;" onclick="selectJurySpeaker(1)" id="jtab-1">Pro 2</button>
+                            <button class="preset-pill" style="justify-content:center;" onclick="selectJurySpeaker(2)" id="jtab-2">Contra 1</button>
+                            <button class="preset-pill" style="justify-content:center;" onclick="selectJurySpeaker(3)" id="jtab-3">Contra 2</button>
+                        </div>
+                        <div class="score-row">
+                            <span>Sachkenntnis</span>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <input type="range" id="slider-0" min="0" max="5" value="3" oninput="updateJuryScore(0, this.value)">
+                                <span id="val-0" style="width:14px;color:var(--brand);">3</span>
+                            </div>
+                        </div>
+                        <div class="score-row">
+                            <span>Ausdrucksvermögen</span>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <input type="range" id="slider-1" min="0" max="5" value="3" oninput="updateJuryScore(1, this.value)">
+                                <span id="val-1" style="width:14px;color:var(--brand);">3</span>
+                            </div>
+                        </div>
+                        <div class="score-row">
+                            <span>Gesprächsfähigkeit</span>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <input type="range" id="slider-2" min="0" max="5" value="3" oninput="updateJuryScore(2, this.value)">
+                                <span id="val-2" style="width:14px;color:var(--brand);">3</span>
+                            </div>
+                        </div>
+                        <div class="score-row">
+                            <span>Überzeugungskraft</span>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <input type="range" id="slider-3" min="0" max="5" value="3" oninput="updateJuryScore(3, this.value)">
+                                <span id="val-3" style="width:14px;color:var(--brand);">3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="summary-modal" class="modal-backdrop hidden" onclick="if(event.target===this) closeSummaryModal()">
+        <div class="modal-card">
+            <div class="panel-header" style="margin-bottom: 12px;">
+                <div class="panel-title-group">
+                    <h2>Debatten-Auswertung</h2>
+                </div>
+                <span id="team-comparison-badge" class="phase-badge" style="background:var(--emerald-bg);color:var(--emerald);">Pro 24 : 24 Contra</span>
+            </div>
+            <div class="desc" style="margin-bottom: 18px;">Gesamtpunkte aus allen vier Bewertungskriterien.</div>
+            <div id="ranking-container" style="margin-bottom: 24px;"></div>
+            <div style="display: flex; gap: 12px;">
     <script>
-        let phases = [];
-        let currentPhaseIndex = 0;
-        let timeLeft = 0;
-        let timerInterval = null;
-        let isRunning = false;
+        var phases = [];
+        var currentPhaseIndex = 0;
+        var timeLeft = 0;
+        var timerInterval = null;
+        var isRunning = false;
+        var soundEnabled = true;
+        var argumentsList = [];
+        var activeJurySpeaker = 0;
+        var speakerNames = ["Pro 1", "Pro 2", "Contra 1", "Contra 2"];
+        var juryScores = [
+            { s0: 3, s1: 3, s2: 3, s3: 3 },
+            { s0: 3, s1: 3, s2: 3, s3: 3 },
+            { s0: 3, s1: 3, s2: 3, s3: 3 },
+            { s0: 3, s1: 3, s2: 3, s3: 3 }
+        ];
 
-        const icons = {
-            play: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"/></svg>`,
-            pause: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`,
-            check: `<svg style="width:15px;height:15px;color:var(--emerald);flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`,
-            mic: `<svg style="width:15px;height:15px;color:var(--brand);flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>`,
-            circle: `<svg style="width:15px;height:15px;color:var(--text-sub);opacity:0.5;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>`,
-            clock: `<svg style="width:15px;height:15px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
-            alert: `<svg style="width:15px;height:15px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`
-        };
+        var sampleTopics = [
+            "Soll ein verpflichtendes soziales Jahr eingeführt werden?",
+            "Soll das Wahlalter auf 16 Jahre gesenkt werden?",
+            "Sollen Hausaufgaben an Schulen abgeschafft werden?",
+            "Soll ein Tempolimit von 130 km/h auf Autobahnen gelten?",
+            "Soll der öffentliche Nahverkehr kostenlos sein?",
+            "Sollen Smartphones an Schulen verboten werden?"
+        ];
 
-        function setTopic(text) {
-            document.getElementById('debate-question').value = text;
+        function playGong(count) {
+            if (!soundEnabled) return;
+            try {
+                var AudioCtx = window.AudioContext || window.webkitAudioContext;
+                var ctx = new AudioCtx();
+                for (var i = 0; i < count; i++) {
+                    var t = ctx.currentTime + i * 0.35;
+                    var osc = ctx.createOscillator();
+                    var gain = ctx.createGain();
+                    osc.type = "sine";
+                    osc.frequency.setValueAtTime(528, t);
+                    gain.gain.setValueAtTime(0.25, t);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + 1.1);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(t);
+                    osc.stop(t + 1.1);
+                }
+            } catch (e) {}
         }
 
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            var btn = document.getElementById("btn-sound");
+            var label = document.getElementById("sound-label");
+            if (soundEnabled) {
+                btn.classList.remove("muted");
+                label.textContent = "Gong an";
+                playGong(1);
+            } else {
+                btn.classList.add("muted");
+                label.textContent = "Gong aus";
+            }
+        }
+
+        function setTopic(text) {
+            document.getElementById("debate-question").value = text;
+        }
+
+        function randomTopic() {
+            var input = document.getElementById("debate-question");
+            input.value = sampleTopics[Math.floor(Math.random() * sampleTopics.length)];
+        }
+        function addArgument(side) {
+            var input = document.getElementById("new-arg-input");
+            var text = input.value.trim();
+            if (!text) return;
+            argumentsList.unshift({ text: text, side: side, countered: false });
+            input.value = "";
+            renderArguments();
+        }
+
+        function toggleArgument(index) {
+            argumentsList[index].countered = !argumentsList[index].countered;
+            renderArguments();
+        }
+
+        function removeArgument(e, index) {
+            e.stopPropagation();
+            argumentsList.splice(index, 1);
+            renderArguments();
+        }
+
+        function renderArguments() {
+            var container = document.getElementById("arg-list-container");
+            document.getElementById("arg-counter").textContent = argumentsList.length + " Punkte";
+            if (argumentsList.length === 0) {
+                container.innerHTML = "<div style='padding:28px 12px;text-align:center;color:var(--text-sub);font-size:12px;'>Noch keine Stichpunkte notiert.</div>";
+                return;
+            }
+            container.innerHTML = "";
+            for (var i = 0; i < argumentsList.length; i++) {
+                (function(idx) {
+                    var arg = argumentsList[idx];
+                    var row = document.createElement("div");
+                    row.className = "phase-row" + (arg.countered ? " done" : "");
+                    row.onclick = function() { toggleArgument(idx); };
+                    var bg = arg.side === "pro" ? "background:var(--emerald-bg);color:var(--emerald);" : "background:var(--rose-bg);color:var(--rose);";
+                    var lbl = arg.side === "pro" ? "PRO" : "CONTRA";
+                    var st = arg.countered ? "text-decoration:line-through;" : "";
+                    row.innerHTML = "<div class='phase-row-left'><span style='" + bg + "padding:3px 8px;border-radius:99px;font-size:10px;font-weight:700;'>" + lbl + "</span><span style='" + st + "'>" + arg.text + "</span></div><span onclick='removeArgument(event," + idx + ")' style='font-weight:700;padding:0 6px;'>×</span>";
+                    container.appendChild(row);
+                })(i);
+            }
+        }
+        function getSpeakerSum(idx) {
+            var s = juryScores[idx];
+            return s.s0 + s.s1 + s.s2 + s.s3;
+        }
+
+        function selectJurySpeaker(idx) {
+            activeJurySpeaker = idx;
+            for (var i = 0; i < 4; i++) {
+                var tab = document.getElementById("jtab-" + i);
+                if (i === idx) {
+                    tab.style.background = "var(--brand)";
+                    tab.style.color = "white";
+                    tab.style.borderColor = "var(--brand)";
+                } else {
+                    tab.style.background = "#f8fafc";
+                    tab.style.color = "var(--text-sub)";
+                    tab.style.borderColor = "var(--border)";
+                }
+            }
+            var scores = juryScores[idx];
+            for (var c = 0; c < 4; c++) {
+                var val = scores["s" + c];
+                document.getElementById("slider-" + c).value = val;
+                document.getElementById("val-" + c).textContent = val;
+            }
+            document.getElementById("total-score-badge").textContent = getSpeakerSum(idx) + " / 20 Pkt.";
+        }
+
+        function updateJuryScore(criterionIdx, val) {
+            var num = parseInt(val);
+            juryScores[activeJurySpeaker]["s" + criterionIdx] = num;
+            document.getElementById("val-" + criterionIdx).textContent = num;
+            document.getElementById("total-score-badge").textContent = getSpeakerSum(activeJurySpeaker) + " / 20 Pkt.";
+        }
+
+        function showSummaryModal() {
+            var ranking = [];
+            for (var i = 0; i < 4; i++) {
+                ranking.push({ name: speakerNames[i], side: i < 2 ? "Pro" : "Contra", score: getSpeakerSum(i) });
+            }
+            ranking.sort(function(a, b) { return b.score - a.score; });
+
+            var proTotal = getSpeakerSum(0) + getSpeakerSum(1);
+            var contraTotal = getSpeakerSum(2) + getSpeakerSum(3);
+            document.getElementById("team-comparison-badge").textContent = "Pro " + proTotal + " : " + contraTotal + " Contra";
+
+            var container = document.getElementById("ranking-container");
+            container.innerHTML = "";
+            for (var r = 0; r < ranking.length; r++) {
+                var item = ranking[r];
+                var div = document.createElement("div");
+                div.className = "rank-row" + (r === 0 ? " winner" : "");
+                div.innerHTML = "<span>#" + (r + 1) + " · " + item.name + " (" + item.side + ")</span><span>" + item.score + " / 20 Pkt.</span>";
+                container.appendChild(div);
+            }
+            document.getElementById("summary-modal").classList.remove("hidden");
+        }
+
+        function closeSummaryModal() {
+            document.getElementById("summary-modal").classList.add("hidden");
+        }
         function formatTime(seconds) {
-            const isNegative = seconds < 0;
-            const absSec = Math.abs(seconds);
-            const mins = Math.floor(absSec / 60);
-            const secs = absSec % 60;
-            const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-            return isNegative ? `-${formatted}` : formatted;
+            var isNeg = seconds < 0;
+            var abs = Math.abs(seconds);
+            var m = Math.floor(abs / 60);
+            var s = abs % 60;
+            return (isNeg ? "-" : "") + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
         }
 
         function startDebate() {
-            const questionInput = document.getElementById('debate-question').value.trim();
-            const question = questionInput || "Soll ein verpflichtendes soziales Jahr eingeführt werden?";
-            
-            const openingSec = parseInt(document.getElementById('time-opening').value) || 120;
-            const freeSec = (parseInt(document.getElementById('time-free').value) || 12) * 60;
-            const closingSec = parseInt(document.getElementById('time-closing').value) || 60;
+            var q = document.getElementById("debate-question").value.trim() || "Soll ein verpflichtendes soziales Jahr eingeführt werden?";
+            var openSec = parseInt(document.getElementById("time-opening").value) || 120;
+            var freeSec = (parseInt(document.getElementById("time-free").value) || 12) * 60;
+            var closeSec = parseInt(document.getElementById("time-closing").value) || 60;
 
-            const pro1 = document.getElementById('name-pro1').value.trim() || "Pro 1";
-            const pro2 = document.getElementById('name-pro2').value.trim() || "Pro 2";
-            const contra1 = document.getElementById('name-contra1').value.trim() || "Contra 1";
-            const contra2 = document.getElementById('name-contra2').value.trim() || "Contra 2";
+            var p1 = document.getElementById("name-pro1").value.trim() || "Pro 1";
+            var p2 = document.getElementById("name-pro2").value.trim() || "Pro 2";
+            var c1 = document.getElementById("name-contra1").value.trim() || "Contra 1";
+            var c2 = document.getElementById("name-contra2").value.trim() || "Contra 2";
+
+            speakerNames = [p1, p2, c1, c2];
+            for (var i = 0; i < 4; i++) document.getElementById("jtab-" + i).textContent = speakerNames[i];
 
             phases = [
-                { round: "1. Eröffnungsrunde", title: `Eröffnungsrede: ${pro1}`, duration: openingSec, hint: "Begriffe klären, Position beziehen und erstes Pro-Argument darlegen." },
-                { round: "1. Eröffnungsrunde", title: `Eröffnungsrede: ${contra1}`, duration: openingSec, hint: "Auf Pro 1 eingehen, Gegenposition beziehen und erstes Contra-Argument nennen." },
-                { round: "1. Eröffnungsrunde", title: `Eröffnungsrede: ${pro2}`, duration: openingSec, hint: "Pro-Position stützen und ein zweites, eigenständiges Argument einbringen." },
-                { round: "1. Eröffnungsrunde", title: `Eröffnungsrede: ${contra2}`, duration: openingSec, hint: "Contra-Position stützen und ein zweites, eigenständiges Gegenargument einbringen." },
-                { round: "2. Freie Aussprache", title: "Freie Aussprache (Alle)", duration: freeSec, hint: "Offener Schlagabtausch: Argumente prüfen, nachfragen, abwägen und entkräften." },
-                { round: "3. Schlussrunde", title: `Schlussrede: ${contra1}`, duration: closingSec, hint: "Keine neuen Argumente! Debatte aus Contra-Sicht bilanzieren und Frage beantworten." },
-                { round: "3. Schlussrunde", title: `Schlussrede: ${pro1}`, duration: closingSec, hint: "Keine neuen Argumente! Debatte aus Pro-Sicht bilanzieren und Frage beantworten." },
-                { round: "3. Schlussrunde", title: `Schlussrede: ${contra2}`, duration: closingSec, hint: "Abschließendes Fazit der Contra-Seite." },
-                { round: "3. Schlussrunde", title: `Schlussrede: ${pro2}`, duration: closingSec, hint: "Abschließendes Fazit der Pro-Seite." }
+                { round: "1. Eröffnungsrunde", side: "pro", sideLabel: "Pro-Seite", juryIdx: 0, title: "Eröffnungsrede: " + p1, duration: openSec, hint: "Begriffe klären, Position beziehen und erstes Pro-Argument darlegen." },
+                { round: "1. Eröffnungsrunde", side: "contra", sideLabel: "Contra-Seite", juryIdx: 2, title: "Eröffnungsrede: " + c1, duration: openSec, hint: "Auf Pro 1 eingehen, Gegenposition beziehen und erstes Contra-Argument nennen." },
+                { round: "1. Eröffnungsrunde", side: "pro", sideLabel: "Pro-Seite", juryIdx: 1, title: "Eröffnungsrede: " + p2, duration: openSec, hint: "Pro-Position stützen und ein zweites Argument einbringen." },
+                { round: "1. Eröffnungsrunde", side: "contra", sideLabel: "Contra-Seite", juryIdx: 3, title: "Eröffnungsrede: " + c2, duration: openSec, hint: "Contra-Position stützen und ein zweites Gegenargument einbringen." },
+                { round: "2. Freie Aussprache", side: "all", sideLabel: "Alle Redner", juryIdx: null, title: "Freie Aussprache", duration: freeSec, hint: "Offener Schlagabtausch: Argumente prüfen, nachfragen und entkräften." },
+                { round: "3. Schlussrunde", side: "contra", sideLabel: "Contra-Seite", juryIdx: 2, title: "Schlussrede: " + c1, duration: closeSec, hint: "Keine neuen Argumente! Debatte aus Contra-Sicht bilanzieren." },
+                { round: "3. Schlussrunde", side: "pro", sideLabel: "Pro-Seite", juryIdx: 0, title: "Schlussrede: " + p1, duration: closeSec, hint: "Keine neuen Argumente! Debatte aus Pro-Sicht bilanzieren." },
+                { round: "3. Schlussrunde", side: "contra", sideLabel: "Contra-Seite", juryIdx: 3, title: "Schlussrede: " + c2, duration: closeSec, hint: "Abschließendes Fazit der Contra-Seite." },
+                { round: "3. Schlussrunde", side: "pro", sideLabel: "Pro-Seite", juryIdx: 1, title: "Schlussrede: " + p2, duration: closeSec, hint: "Abschließendes Fazit der Pro-Seite." }
             ];
 
-            document.getElementById('display-question').textContent = question;
-            document.getElementById('setup-screen').classList.add('hidden');
-            document.getElementById('debate-screen').classList.remove('hidden');
-            document.getElementById('header-status').innerHTML = `${icons.mic} Debatte läuft`;
-
+            document.getElementById("display-question").textContent = q;
+            document.getElementById("setup-screen").classList.add("hidden");
+            document.getElementById("debate-screen").classList.remove("hidden");
             loadPhase(0);
         }
 
         function backToSettings() {
             stopTimer();
-            document.getElementById('debate-screen').classList.add('hidden');
-            document.getElementById('setup-screen').classList.remove('hidden');
-            document.getElementById('header-status').innerHTML = `${icons.clock} Vorbereitung`;
+            document.getElementById("debate-screen").classList.add("hidden");
+            document.getElementById("setup-screen").classList.remove("hidden");
+            document.getElementById("header-status").textContent = "Vorbereitung";
         }
 
         function loadPhase(index) {
             stopTimer();
             currentPhaseIndex = index;
-            const phase = phases[currentPhaseIndex];
+            var phase = phases[currentPhaseIndex];
             timeLeft = phase.duration;
 
-            document.getElementById('current-round-badge').textContent = phase.round;
-            document.getElementById('phase-counter').textContent = `Schritt ${currentPhaseIndex + 1} / ${phases.length}`;
-            document.getElementById('current-speaker-title').textContent = phase.title;
-            document.getElementById('current-phase-hint').textContent = phase.hint;
+            document.getElementById("current-round-badge").textContent = phase.round;
+            document.getElementById("header-status").textContent = "Schritt " + (currentPhaseIndex + 1) + " / " + phases.length;
+            document.getElementById("current-speaker-title").textContent = phase.title;
+            document.getElementById("current-phase-hint").textContent = phase.hint;
 
+            var sidePill = document.getElementById("current-side-pill");
+            sidePill.textContent = phase.sideLabel;
+            sidePill.className = "side-pill side-" + phase.side;
+
+            if (phase.juryIdx !== null) selectJurySpeaker(phase.juryIdx);
             updateTimerDisplay();
             renderPhaseList();
         }
 
         function updateTimerDisplay() {
-            const display = document.getElementById('timer-display');
-            const statusText = document.getElementById('timer-status-text');
-            display.textContent = formatTime(timeLeft);
+            var display = document.getElementById("timer-display");
+            var statusText = document.getElementById("timer-status-text");
+            var fill = document.getElementById("progress-fill");
+            var total = phases[currentPhaseIndex].duration;
 
-            display.classList.remove('timer-warning', 'timer-over');
+            display.textContent = formatTime(timeLeft);
+            display.classList.remove("timer-warning", "timer-over");
+            fill.style.width = Math.max(0, Math.min(100, (timeLeft / total) * 100)) + "%";
 
             if (timeLeft <= 0) {
-                display.classList.add('timer-over');
-                statusText.innerHTML = `${icons.alert} <span>Zeit abgelaufen! Bitte zum Ende kommen.</span>`;
+                display.classList.add("timer-over");
+                fill.style.backgroundColor = "var(--rose)";
+                statusText.textContent = "Zeit abgelaufen! Bitte zum Ende kommen.";
                 statusText.style.color = "var(--rose)";
             } else if (timeLeft <= 15) {
-                display.classList.add('timer-warning');
-                statusText.innerHTML = `${icons.alert} <span>Letzte 15 Sekunden!</span>`;
+                display.classList.add("timer-warning");
+                fill.style.backgroundColor = "var(--amber)";
+                statusText.textContent = "Letzte 15 Sekunden!";
                 statusText.style.color = "var(--amber)";
             } else {
-                statusText.innerHTML = `${icons.clock} <span>${isRunning ? "Redezeit läuft..." : "Pausiert / Bereit"}</span>`;
+                fill.style.backgroundColor = "var(--brand)";
+                statusText.textContent = isRunning ? "Redezeit läuft..." : "Pausiert / Bereit";
                 statusText.style.color = "var(--emerald)";
             }
         }
 
-        function toggleTimer() {
-            if (isRunning) {
-                stopTimer();
-            } else {
-                startTimer();
-            }
-        }
+        function toggleTimer() { if (isRunning) stopTimer(); else startTimer(); }
 
         function startTimer() {
             if (isRunning) return;
             isRunning = true;
-            document.getElementById('btn-toggle-timer').innerHTML = `${icons.pause} Pause`;
+            document.getElementById("btn-toggle-timer").textContent = "Pause";
             updateTimerDisplay();
-
-            timerInterval = setInterval(() => {
+            timerInterval = setInterval(function() {
                 timeLeft--;
+                if (timeLeft === 15) playGong(1);
+                if (timeLeft === 0) playGong(2);
                 updateTimerDisplay();
             }, 1000);
         }
@@ -442,7 +674,7 @@ Klicke auf einen Abschnitt, um direkt dorthin zu springen.
         function stopTimer() {
             isRunning = false;
             clearInterval(timerInterval);
-            document.getElementById('btn-toggle-timer').innerHTML = `${icons.play} Start`;
+            document.getElementById("btn-toggle-timer").textContent = "Start";
             updateTimerDisplay();
         }
 
@@ -453,43 +685,31 @@ Klicke auf einen Abschnitt, um direkt dorthin zu springen.
         }
 
         function nextPhase() {
-            if (currentPhaseIndex < phases.length - 1) {
-                loadPhase(currentPhaseIndex + 1);
-            } else {
-                stopTimer();
-                alert("Die Debatte ist beendet! Zeit für das Feedback.");
-            }
+            if (currentPhaseIndex < phases.length - 1) loadPhase(currentPhaseIndex + 1);
+            else { stopTimer(); playGong(2); showSummaryModal(); }
         }
 
         function renderPhaseList() {
-            const container = document.getElementById('phase-list-container');
+            var container = document.getElementById("phase-list-container");
             container.innerHTML = "";
-
-            phases.forEach((p, idx) => {
-                const row = document.createElement('div');
-                row.className = 'phase-row';
-                
-                let statusIcon = icons.circle;
-                if (idx === currentPhaseIndex) {
-                    row.classList.add('active');
-                    statusIcon = icons.mic;
-                } else if (idx < currentPhaseIndex) {
-                    row.classList.add('done');
-                    statusIcon = icons.check;
-                }
-
-                row.onclick = () => loadPhase(idx);
-
-                row.innerHTML = `
-                    <div class="phase-row-left">
-                        ${statusIcon}
-                        <span>${idx + 1}. ${p.title}</span>
-                    </div>
-                    <span style="font-variant-numeric: tabular-nums; font-weight: 600;">${formatTime(p.duration)}</span>
-                `;
-                container.appendChild(row);
-            });
+            for (var i = 0; i < phases.length; i++) {
+                (function(idx) {
+                    var p = phases[idx];
+                    var row = document.createElement("div");
+                    row.className = "phase-row" + (idx === currentPhaseIndex ? " active" : "") + (idx < currentPhaseIndex ? " done" : "");
+                    row.onclick = function() { loadPhase(idx); };
+                    row.innerHTML = "<span>" + (idx + 1) + ". " + p.title + "</span><span style='font-weight:600;'>" + formatTime(p.duration) + "</span>";
+                    container.appendChild(row);
+                })(i);
+            }
         }
+
+        document.addEventListener("keydown", function(e) {
+            if (document.getElementById("debate-screen").classList.contains("hidden")) return;
+            if (e.target.tagName === "INPUT") return;
+            if (e.code === "Space") { e.preventDefault(); toggleTimer(); }
+            if (e.code === "ArrowRight") { e.preventDefault(); nextPhase(); }
+        });
     </script>
 </body>
 </html>
